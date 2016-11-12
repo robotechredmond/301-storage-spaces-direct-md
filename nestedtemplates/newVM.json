@@ -99,7 +99,7 @@
                         "version": "[parameters('imageVersion')]"
                     },
                     "osDisk": {
-                        "name": "osdisk",
+                        "name": "[concat(parameters('vmName'),'-osdisk')]",
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
                     },
