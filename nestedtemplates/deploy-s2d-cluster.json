@@ -117,9 +117,13 @@
         {
             "type": "Microsoft.Compute/availabilitySets",
             "name": "[variables('vmAvailabilitySetName')]",
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2016-04-30-preview",
             "location": "[resourceGroup().location]",
-            "properties": {}
+            "properties": {
+                "platformFaultDomainCount": "[parameters('vmCount')]",
+                "platformUpdateDomainCount": "[parameters('vmCount')]",
+                "managed": "true"
+            }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
