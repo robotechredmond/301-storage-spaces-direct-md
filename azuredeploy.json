@@ -17,6 +17,13 @@
       },
       "defaultValue": "Standard_DS1_v2"
     },
+    "enableAcceleratedNetworking": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enable (true) or Disable (false) Accelerated Networking - if enabling, make sure you are selecting appropriate VM Size and Region"
+      },
+      "defaultValue": false
+    },
     "vmCount": {
       "type": "int",
       "minValue": 2,
@@ -145,6 +152,9 @@
           },
           "vmSize": {
             "value": "[parameters('vmSize')]"
+          },
+          "enableAcceleratedNetworking": {
+            "value": "[parameters('enableAcceleratedNetworking')]"
           },
           "vmCount": {
             "value": "[parameters('vmCount')]"

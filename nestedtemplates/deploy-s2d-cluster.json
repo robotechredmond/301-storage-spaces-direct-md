@@ -41,6 +41,12 @@
                 "description": "Size of the S2D VMs to be created"
             }
         },
+        "enableAcceleratedNetworking": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable (true) or Disable (false) Accelerated Networking - if enabling, make sure you are selecting appropriate VM Size and Region"
+            }
+        },
         "vmCount": {
             "type": "int",
             "minValue": 2,
@@ -139,7 +145,7 @@
             "name": "[concat(variables('vmNamePrefix'), copyindex(), '-nic')]",
             "type": "Microsoft.Network/networkInterfaces",
             "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2016-09-01",
             "copy": {
                 "name": "nicLoop",
                 "count": "[parameters('vmCount')]"
@@ -155,7 +161,8 @@
                             }
                         }
                     }
-                ]
+                ],
+                "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]"
             }
         },
         {
