@@ -21,8 +21,7 @@
       "type": "bool",
       "metadata": {
         "description": "Enable (true) or Disable (false) Accelerated Networking - if enabling, make sure you are selecting appropriate VM Size and Region"
-      },
-      "defaultValue": false
+      }
     },
     "vmCount": {
       "type": "int",
