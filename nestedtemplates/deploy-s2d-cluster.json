@@ -83,6 +83,36 @@
                 "description": "Name of shared data folder on clustered Scale-Out File Server role"
             }
         },
+        "scheduledUpdateDay": {
+            "type": "string",
+            "metadata": {
+                "description": "Day to perform scheduled cluster-aware updating each week"
+            }
+        },
+        "scheduledUpdateTime": {
+            "type": "string",
+            "metadata": {
+                "description": "Time to begin scheduled cluster-aware updating on selected day"
+            }
+        },
+        "realtimeAntimalwareEnabled": {
+            "type": "string",
+            "metadata": {
+                "description": "True or False to enable realtime antimalware scanning"
+            }
+        },
+        "scheduledAntimalwareEnabled": {
+            "type": "string",
+            "metadata": {
+                "description": "True or False to enable scheduled antimalware scanning"
+            }
+        },
+        "scheduledAntimalwareTime": {
+            "type": "string",
+            "metadata": {
+                "description": "Minutes past midnight to begin scheduled antimalware scanning each day"
+            }
+        },
         "imagePublisher": {
             "type": "string",
             "defaultValue": "MicrosoftWindowsServer"
@@ -91,9 +121,9 @@
             "type": "string",
             "defaultValue": "WindowsServer"
         },
-        "imageSKU": {
+        "imageSku": {
             "type": "string",
-            "defaultValue": "2016-Datacenter"
+            "defaultValue": "2016-Datacenter-Server-Core"
         },
         "imageVersion": {
             "type": "string",
@@ -240,7 +270,7 @@
             "properties": {
                 "publisher": "Microsoft.Powershell",
                 "type": "DSC",
-                "typeHandlerVersion": "2.20",
+                "typeHandlerVersion": "2.23",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "modulesUrl": "[variables('s2dPrepModulesURL')]",
@@ -273,7 +303,7 @@
             "properties": {
                 "publisher": "Microsoft.Powershell",
                 "type": "DSC",
-                "typeHandlerVersion": "2.20",
+                "typeHandlerVersion": "2.23",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "modulesUrl": "[variables('s2dConfigModulesURL')]",
@@ -286,6 +316,8 @@
                         "vmNamePrefix": "[variables('vmNamePrefix')]",
                         "vmCount": "[parameters('vmCount')]",
                         "vmDiskSize": "[parameters('vmDiskSize')]",
+                        "scheduledUpdateDay": "[parameters('scheduledUpdateDay')]",
+                        "scheduledUpdateTime": "[parameters('scheduledUpdateTime')]",
                         "witnessStorageName": "[variables('witnessStorageName')]",
                         "witnessStorageKey": {
                             "userName": "PLACEHOLDER-DO-NOT-USE",
@@ -303,6 +335,38 @@
                         "witnessStorageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts',variables('witnessStorageName')),variables('apiVersionStorage')).keys[0].value]"
                     }
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmNamePrefix'),copyindex(),'/IaaSAntimalware')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "virtualMachineLoop",
+                "virtualMachineExtensionLoop",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('vmNamePrefix'),'0'), 's2dConfig')]"
+            ],
+            "copy": {
+                "name": "IaaSAntimalwareExtensionLoop",
+                "count": "[parameters('vmCount')]"
+            },
+            "properties": {
+                "publisher": "Microsoft.Azure.Security",
+                "type": "IaaSAntimalware",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "AntimalwareEnabled": "true",
+                    "RealtimeProtectionEnabled": "[parameters('realtimeAntimalwareEnabled')]",
+                    "ScheduledScanSettings": {
+                        "isEnabled": "[parameters('scheduledAntimalwareEnabled')]",
+                        "scanType": "Quick",
+                        "day": "0",
+                        "time": "[parameters('scheduledAntimalwareTime')]"
+                    }
+                },
+                "protectedSettings": null
             }
         }
     ],

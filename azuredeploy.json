@@ -15,13 +15,24 @@
       "metadata": {
         "description": "Size of the S2D VMs to be created"
       },
-      "defaultValue": "Standard_DS1_v2"
+      "defaultValue": "Standard_DS4_v2"
     },
     "enableAcceleratedNetworking": {
       "type": "bool",
       "metadata": {
         "description": "Enable (true) or Disable (false) Accelerated Networking - if enabling, make sure you are selecting appropriate VM Size and Region"
       }
+    },
+    "imageSku":{
+      "type": "string",
+      "allowedValues": [
+        "2016-Datacenter-Server-Core",
+        "2016-Datacenter"
+      ],
+      "metadata": {
+        "description": "Operating System Image to use for provisioning each S2D VM"
+      },
+      "defaultValue": "2016-Datacenter-Server-Core"
     },
     "vmCount": {
       "type": "int",
@@ -101,6 +112,58 @@
       },
       "defaultValue": "data"
     },
+    "scheduledUpdateDay": {
+      "type": "string",
+      "allowedValues": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "metadata": {
+          "description": "Day to perform scheduled cluster-aware updating each week"
+      },
+      "defaultValue": "Tuesday"
+    },
+    "scheduledUpdateTime": {
+      "type": "string",
+      "metadata": {
+          "description": "Time to begin scheduled cluster-aware updating on selected day"
+      },
+      "defaultValue": "3:00AM"
+    },
+    "realtimeAntimalwareEnabled": {
+      "type": "string",
+      "allowedValues": [
+        "true",
+        "false"
+      ],
+      "metadata": {
+          "description": "True or False to enable realtime antimalware scanning"
+      },
+      "defaultValue": "true"
+    },
+    "scheduledAntimalwareEnabled": {
+      "type": "string",
+      "allowedValues": [
+        "true",
+        "false"
+      ],
+      "metadata": {
+          "description": "True or False to enable scheduled antimalware scanning"
+      },
+      "defaultValue": "true"
+    },
+    "scheduledAntimalwareTime": {
+      "type": "string",
+      "metadata": {
+          "description": "Minutes past midnight to begin scheduled antimalware scanning each day"
+      },
+      "defaultValue": "120"
+    },
     "_artifactsLocation": {
       "type": "string",
       "metadata": {
@@ -149,6 +212,9 @@
           "nicSubnetUri": {
             "value": "[variables('subnetRef')]"
           },
+          "imageSku": {
+            "value": "[parameters('imageSku')]"
+          },
           "vmSize": {
             "value": "[parameters('vmSize')]"
           },
@@ -169,6 +235,21 @@
           },
           "shareName": {
             "value": "[parameters('shareName')]"
+          },
+          "scheduledUpdateDay": {
+            "value": "[parameters('scheduledUpdateDay')]"
+          },
+          "scheduledUpdateTime": {
+            "value": "[parameters('scheduledUpdateTime')]"
+          },
+          "realtimeAntimalwareEnabled": {
+            "value": "[parameters('realtimeAntimalwareEnabled')]"
+          },
+          "scheduledAntimalwareEnabled": {
+            "value": "[parameters('scheduledAntimalwareEnabled')]"
+          },
+          "scheduledAntimalwareTime": {
+            "value": "[parameters('scheduledAntimalwareTime')]"
           },
           "_artifactsLocation": {
             "value": "[parameters('_artifactsLocation')]"
