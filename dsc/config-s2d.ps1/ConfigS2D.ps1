@@ -149,7 +149,7 @@ configuration ConfigS2D
 
         Script EnableClusterAwareUpdating
         {
-            SetScript = "Add-CauClusterRole -ClusterName ${ClusterName} -CauPluginName Microsoft.WindowsUpdatePlugin -CauPluginArguments @{ ‘IncludeRecommendedUpdates’ = ‘True’ } -RequireAllNodesOnline -EnableFirewallRules -StartDate [DateTime]`"${scheduledUpdateTime}`" -DaysOfWeek ${scheduledUpdateDay} -WeeksInterval 1 -Force"
+            SetScript = "Add-CauClusterRole -ClusterName ${ClusterName} -CauPluginName Microsoft.WindowsUpdatePlugin -CauPluginArguments @{'IncludeRecommendedUpdates'='True'} -RequireAllNodesOnline -EnableFirewallRules -StartDate [DateTime]`"${scheduledUpdateTime}`" -DaysOfWeek ${scheduledUpdateDay} -WeeksInterval 1 -Force"
             TestScript = "(Get-CauClusterRole -ClusterName ${ClusterName} -ErrorAction SilentlyContinue).Status -eq 'Online'"
             GetScript = "@{Ensure = if ((Get-CauClusterRole -ClusterName ${ClusterName} -ErrorAction SilentlyContinue).Status -eq 'Online') {'Present'} Else {'Absent'}}"
             PsDscRunAsCredential = $DomainCreds
