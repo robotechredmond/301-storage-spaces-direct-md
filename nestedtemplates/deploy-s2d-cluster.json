@@ -191,7 +191,12 @@
                             }
                         }
                     }
-                ],
+                ],                
+                "dnsSettings": {
+                    "dnsServers": [
+                        "10.0.6.4"
+                    ]
+                },
                 "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]"
             }
         },
