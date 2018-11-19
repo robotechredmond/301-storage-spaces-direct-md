@@ -15,7 +15,7 @@
       "metadata": {
         "description": "Size of the S2D VMs to be created"
       },
-      "defaultValue": "Standard_DS4_v2"
+      "defaultValue": "Standard_DS3_v2"
     },
     "enableAcceleratedNetworking": {
       "type": "bool",
@@ -32,7 +32,7 @@
       "metadata": {
         "description": "Operating System Image to use for provisioning each S2D VM"
       },
-      "defaultValue": "2016-Datacenter-Server-Core"
+      "defaultValue": "2016-Datacenter"
     },
     "vmCount": {
       "type": "int",
@@ -169,7 +169,7 @@
       "metadata": {
         "description": "Location of resources that the script is dependent on such as linked templates and DSC modules"
       },
-      "defaultValue": "https://raw.githubusercontent.com/Steven-N/301-storage-spaces-direct-md/master"
+      "defaultValue": "https://raw.githubusercontent.com/jkpaya/301-storage-spaces-direct-md/master"
     },
     "_artifactsLocationSasToken": {
       "type": "securestring",
