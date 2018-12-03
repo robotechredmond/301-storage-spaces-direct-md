@@ -6,7 +6,7 @@
       "value": "GEN-UNIQUE-8"
     },
     "existingDomainName": {
-      "value": "contoso.com"
+      "value": "bws.local"
     },
     "adminUsername": {
       "value": "AzureAdmin"
@@ -15,13 +15,13 @@
       "value": "GEN-PASSWORD"
     },
     "existingVirtualNetworkName": {
-      "value": "vnet01"
+      "value": "Vnet-33"
     },
     "existingVirtualNetworkRGName": {
-      "value": "rg01"
+      "value": "Default-Networking-vnet33"
     },    
     "existingSubnetName": {
-      "value": "default"
+      "value": "Range4"
     },
     "enableAcceleratedNetworking": {
       "value": false
